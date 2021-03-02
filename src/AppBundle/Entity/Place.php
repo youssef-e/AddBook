@@ -35,13 +35,18 @@ class Place
     public $createdAt;
 
     /**
-     * @ORM\Column(name="comment", type="string", length=255)
+     * @ORM\Column(name="comment", type="string", length=255,nullable=true)
      */
     public $comment;
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime;
     }
 
 }
