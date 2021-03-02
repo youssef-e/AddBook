@@ -3,8 +3,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     # You should uncomment this if you want to use pdo_sqlite
-    database_path: '%kernel.project_dir%/var/data/data.sqlite'
-    # mysql://user:pass@127.0.0.1:3306/dbname
+    database_path: 'sqlite:///%kernel.project_dir%/var/data.sqlite'
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
@@ -12,4 +11,4 @@ parameters:
     mailer_password: ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: '%env(APP_SECRET)%'
