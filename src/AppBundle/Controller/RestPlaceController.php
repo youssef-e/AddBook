@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response; 
 
 /**
  * Place controller.
@@ -27,9 +28,10 @@ class RestPlaceController extends Controller
 
         $places = $em->getRepository('AppBundle:Place')->findAll();
 
-        return $this->render('place/index.html.twig', array(
-            'places' => $places,
-        ));
+        $response = new Response(json_encode($places));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     /**

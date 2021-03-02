@@ -17,7 +17,7 @@ class Place
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\Column(name="name", type="string", length=255)

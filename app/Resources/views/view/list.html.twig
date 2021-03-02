@@ -1,1 +1,52 @@
-toto
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $.ajax({
+    		type: "GET",
+        url: "/rest_place",
+        dataType: "json",
+        // ajax options
+        success: function(response) {
+            append_json(response);
+        }
+                });
+  });
+function append_json(data){
+            var table = document.getElementById('placeliste');
+            data.forEach(function(object) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = 
+                '<td>' + object.id+ '</td>' +
+                '<td>' + object.name + '</td>' +
+                '<td>' + object.address+ '</td>' +
+                '<td>' + object.createdAt.date + '</td>' +
+                '<td>' + object.comment + '</td>';
+                table.appendChild(tr);
+            });
+        }
+</script>
+</head>
+<body>
+
+<div >
+	<table id="placeliste">
+		<thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Createdat</th>
+                <th>Comment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        </table>
+</div>
+
+
+</body>
+</html>
+
