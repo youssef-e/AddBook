@@ -68,12 +68,10 @@ class RestPlaceController extends Controller
      */
     public function showAction(Place $place)
     {
-        $deleteForm = $this->createDeleteForm($place);
+        $response = new Response(json_encode($place));
+        $response->headers->set('Content-Type', 'application/json');
 
-        return $this->render('place/show.html.twig', array(
-            'place' => $place,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $response;
     }
 
     /**

@@ -15,18 +15,24 @@ $(document).ready(function(){
                 });
   });
 function append_json(data){
-            var table = document.getElementById('placeliste');
-            data.forEach(function(object) {
-                var tr = document.createElement('tr');
-                tr.innerHTML = 
-                '<td>' + object.id+ '</td>' +
-                '<td>' + object.name + '</td>' +
-                '<td>' + object.address+ '</td>' +
-                '<td>' + object.createdAt.date + '</td>' +
-                '<td>' + object.comment + '</td>';
-                table.appendChild(tr);
-            });
-        }
+        var table = document.getElementById('placeliste');
+        data.forEach(function(object) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = 
+            '<td>' + object.id+ '</td>' +
+            '<td>' + object.name + '</td>' +
+            '<td>' + object.address+ '</td>' +
+            '<td>' + object.createdAt.date + '</td>' +
+            '<td>' + object.comment + '</td>'+
+            '<td>'+ '<ul>'+
+            '<li>'+
+            "<a href=/rest_place/"+object.id+"/edit"+">edit</a>"+
+            "</li>"+
+            "</ul>"+"</td>";
+            table.appendChild(tr);
+        });
+    }
+
 </script>
 </head>
 <body>
@@ -44,6 +50,9 @@ function append_json(data){
             </tr>
         </thead>
         </table>
+</div>
+<div>
+<input type="button" onclick="location.href='/view/new';" value="new entry" />
 </div>
 
 

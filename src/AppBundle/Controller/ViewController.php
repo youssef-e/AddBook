@@ -20,4 +20,13 @@ class ViewController extends Controller
     {
         return $this->render('view/list.html.twig',[] );
     }
+
+    /**
+     * @Route("/new", name="view_new")
+     * @Method("GET")
+     */
+    public function newAction()
+    {
+        return $this->render('view/new.html.twig',[] );
+    }
 }
