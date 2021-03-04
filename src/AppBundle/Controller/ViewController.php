@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  *
@@ -13,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ViewController extends Controller
 {
     /**
-     * @Route("/list", name="view_list")
+     * @Route("/", name="view_list")
      * @Method("GET")
      */
     public function listAction()
@@ -29,4 +30,15 @@ class ViewController extends Controller
     {
         return $this->render('view/new.html.twig',[] );
     }
+
+    /**
+     * @Route("/{id}/edit", name="view_edit")
+     * @Method("GET")
+     */
+    public function editAction(Request $request)
+    {
+        $id = (int)$request->request->get('row');
+        return $this->render('view/edit.html.twig',array($id) );
+    }
+
 }

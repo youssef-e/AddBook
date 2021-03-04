@@ -85,13 +85,23 @@ class RestPlaceController extends Controller
     public function editAction(Request $request, Place $place)
     {
         $deleteForm = $this->createDeleteForm($place);
-        $editForm = $this->createForm('AppBundle\Form\PlaceType', $place);
-        $editForm->handleRequest($request);
+        
+        if($request->isMethod('get')){
+            $response = new Response(json_encode($place));
+            $response->headers->set('Content-Type', 'application/json');
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            return $response;
+        }
+        if($request->isMethod('post')){
+            $editForm = $this->createForm('AppBundle\Form\PlaceType', $place);
+            $data=json_decode($request->getContent(),true);
+            $editForm->submit($data);
 
-            return $this->redirectToRoute('place_edit', array('id' => $place->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('place_edit', array('id' => $place->getId()));
+            }
         }
 
         return $this->render('place/edit.html.twig', array(
