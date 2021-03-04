@@ -44,20 +44,22 @@ class RestPlaceController extends Controller
     {
         $place = new Place();
         $form = $this->createForm('AppBundle\Form\PlaceType', $place);
-        $form->handleRequest($request);
+        $data=json_decode($request->getContent(),true);
+        $content= $request->getContent();
+        $form->submit($data);
+        //dump($form);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($place);
             $em->flush();
-
-            return $this->redirectToRoute('place_show', array('id' => $place->getId()));
         }
 
-        return $this->render('place/new.html.twig', array(
-            'place' => $place,
-            'form' => $form->createView(),
-        ));
+        $response = new Response(json_encode($place));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+        
     }
 
     /**
