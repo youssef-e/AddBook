@@ -25,12 +25,23 @@ class RestPlaceController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $places = $em->getRepository('AppBundle:Place')->findAll();
-
-        $response = new Response(json_encode($places));
+        $response = new Response(json_encode($places), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
 
+      /**
+     * Finds and displays a place entity.
+     *
+     * @Route("/{id}", name="rest_place_show", requirements={"id" = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"},)
+
+     * @Method("GET")
+     */
+    public function showAction(Place $place)
+    {
+        $response = new Response(json_encode($place), Response::HTTP_OK);
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -38,7 +49,7 @@ class RestPlaceController extends Controller
      * Creates a new place entity.
      *
      * @Route("/new", name="rest_place_new")
-     * @Method({"GET", "POST"})
+     * @Method({"POST"})
      */
     public function newAction(Request $request)
     {
@@ -47,37 +58,34 @@ class RestPlaceController extends Controller
         $data=json_decode($request->getContent(),true);
         $content= $request->getContent();
         $form->submit($data);
-        //dump($form);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($place);
             $em->flush();
+            $response = new Response(json_encode(array("results" => "Operation Successful")), Response::HTTP_CREATED);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
 
-        $response = new Response(json_encode($place));
+        $response = new Response(json_encode(array("error" => "the form is invalid")), Response::HTTP_BAD_REQUEST );
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
         
     }
 
+ 
 
     /**
      * Displays a form to edit an existing place entity.
      *
      * @Route("/{id}/edit", name="rest_place_edit")
-     * @Method({"GET", "POST"})
+     * @Method({"PATCH"})
      */
     public function editAction(Request $request, Place $place)
     {   
-        if($request->isMethod('get')){
-            $response = new Response(json_encode($place));
-            $response->headers->set('Content-Type', 'application/json');
-
-            return $response;
-        }
-        if($request->isMethod('post')){
+        if($request->isMethod('patch')){
             $editForm = $this->createForm('AppBundle\Form\PlaceType', $place);
             $data=json_decode($request->getContent(),true);
             $editForm->submit($data);
@@ -85,17 +93,16 @@ class RestPlaceController extends Controller
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                $response = new Response(json_encode($place));
+                $response = new Response(json_encode(array("result"=>"ressource patched successfully")), Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
         }
-
-        return $this->render('place/edit.html.twig', array(
-            'place' => $place,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        else{
+             $response = new Response(json_encode(array("error"=>"the form is invalid")), Response::HTTP_BAD_REQUEST);
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+        }
     }
 
     /**
@@ -115,5 +122,6 @@ class RestPlaceController extends Controller
 
         return $response;
     }
+
 
 }
