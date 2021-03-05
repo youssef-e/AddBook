@@ -6,13 +6,13 @@
 $(document).ready(function(){
     $.ajax({
     		type: "GET",
-        url: "/rest_place/",
-        dataType: "json",
-        // ajax options
-        success: function(response) {
-            append_json(response);
-        }
-                });
+            url: "/rest_place/",
+            dataType: "json",
+            // ajax options
+            success: function(response) {
+                append_json(response);
+            }
+        });
   });
 function append_json(data){
         var table = document.getElementById('placeliste');
@@ -26,13 +26,38 @@ function append_json(data){
             '<td>' + object.comment + '</td>'+
             '<td>'+ '<ul>'+
             '<li>'+
-            "<a href=/rest_place/"+object.id+"/edit"+">edit</a>"+
+            "<a href=/view/"+object.id+"/edit"+">edit</a>"+
+            "</li>"+
+            '<li>'+
+            "<a onclick=deletePlace("+object.id+")>delete</a>"+
             "</li>"+
             "</ul>"+"</td>";
             table.appendChild(tr);
         });
     }
-
+function deletePlace(id){
+    $.ajax({
+        type: "GET",
+        url: '/rest_place/'+id+'/edit',
+        dataType: "json",
+        // ajax options
+        success: function(response) {
+            console.log(response);
+            console.log(JSON.stringify(response));
+            $.ajax({
+            type        : 'DELETE', 
+            url         : '/rest_place/'+id, 
+            contentType: "application/json",
+            data        : JSON.stringify(response), // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+        })
+            // using the done promise callback
+            .done(function(data) {
+                alert("done")
+        });
+            }
+    });
+}
 </script>
 </head>
 <body>

@@ -100,7 +100,9 @@ class RestPlaceController extends Controller
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('place_edit', array('id' => $place->getId()));
+                $response = new Response(json_encode($place));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
             }
         }
 
@@ -120,15 +122,19 @@ class RestPlaceController extends Controller
     public function deleteAction(Request $request, Place $place)
     {
         $form = $this->createDeleteForm($place);
-        $form->handleRequest($request);
+        $data=json_decode($request->getContent(),true);
+        $form->submit($data);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            dump($em);
             $em->remove($place);
             $em->flush();
         }
+        $response = new Response(json_encode($place));
+        $response->headers->set('Content-Type', 'application/json');
 
-        return $this->redirectToRoute('place_index');
+        return $response;
     }
 
     /**
@@ -140,7 +146,7 @@ class RestPlaceController extends Controller
      */
     private function createDeleteForm(Place $place)
     {
-        return $this->createFormBuilder()
+        return $this->createFormBuilder(null,array('csrf_protection'   => false))
             ->setAction($this->generateUrl('place_delete', array('id' => $place->getId())))
             ->setMethod('DELETE')
             ->getForm()
