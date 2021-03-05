@@ -8,7 +8,6 @@ $(document).ready(function(){
     		type: "GET",
             url: "/rest_place/",
             dataType: "json",
-            // ajax options
             success: function(response) {
                 append_json(response);
             }
@@ -29,7 +28,7 @@ function append_json(data){
             "<a href=/view/"+object.id+"/edit"+">edit</a>"+
             "</li>"+
             '<li>'+
-            "<a onclick=deletePlace("+object.id+")>delete</a>"+
+            "<a href='' onclick=deletePlace("+object.id+")>delete</a>"+
             "</li>"+
             "</ul>"+"</td>"+
             '<td>'+ 
@@ -44,12 +43,11 @@ function deletePlace(id){
             type        : 'DELETE', 
             url         : '/rest_place/'+id, 
             contentType: "application/json",
-            data        : JSON.stringify({}), // our data object
-            dataType    : 'json', // what type of data do we expect back from the server
+            data        : JSON.stringify({}), 
+            dataType    : 'json',
         })
-            // using the done promise callback
+            
             .done(function(data) {
-                alert("done")
                 document.location.reload();
         });
 }

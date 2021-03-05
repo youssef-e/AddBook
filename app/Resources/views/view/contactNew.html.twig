@@ -9,7 +9,6 @@ $(document).ready(function(){
         
  
         var formValues= getFormData($(this));
-        console.log(formValues);
         var url = window.location.pathname;
         var id = window.location.pathname.match(/place\/(\d+)/)[1];
         $.ajax({
@@ -21,7 +20,7 @@ $(document).ready(function(){
         })
             // using the done promise callback
             .done(function(data) {
-                alert("done")
+                location.href='/view/';
         });
         event.preventDefault();
     });
