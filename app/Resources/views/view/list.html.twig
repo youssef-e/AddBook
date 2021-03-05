@@ -36,27 +36,18 @@ function append_json(data){
         });
     }
 function deletePlace(id){
-    $.ajax({
-        type: "GET",
-        url: '/rest_place/'+id+'/edit',
-        dataType: "json",
-        // ajax options
-        success: function(response) {
-            console.log(response);
-            console.log(JSON.stringify(response));
             $.ajax({
             type        : 'DELETE', 
             url         : '/rest_place/'+id, 
             contentType: "application/json",
-            data        : JSON.stringify(response), // our data object
+            data        : JSON.stringify({}), // our data object
             dataType    : 'json', // what type of data do we expect back from the server
         })
             // using the done promise callback
             .done(function(data) {
                 alert("done")
+                document.location.reload();
         });
-            }
-    });
 }
 </script>
 </head>
