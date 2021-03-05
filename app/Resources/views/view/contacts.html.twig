@@ -4,9 +4,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
+	var url = window.location.pathname;
+    var id = window.location.pathname.match(/view\/(\d+)/)[1];
     $.ajax({
     		type: "GET",
-            url: "/rest_place/",
+            url:'/place/'+id+'/contacts',
             dataType: "json",
             // ajax options
             success: function(response) {
@@ -15,34 +17,30 @@ $(document).ready(function(){
         });
   });
 function append_json(data){
-        var table = document.getElementById('placeliste');
+        var table = document.getElementById('contactliste');
         data.forEach(function(object) {
             var tr = document.createElement('tr');
             tr.innerHTML = 
             '<td>' + object.id+ '</td>' +
-            '<td>' + object.name + '</td>' +
-            '<td>' + object.address+ '</td>' +
-            '<td>' + object.createdAt.date + '</td>' +
-            '<td>' + object.comment + '</td>'+
+            '<td>' + object.firstName + '</td>' +
+            '<td>' + object.lastName+ '</td>' +
+            '<td>' + object.job + '</td>' +
+            '<td>' + object.phoneNumber + '</td>'+
             '<td>'+ '<ul>'+
             '<li>'+
             "<a href=/view/"+object.id+"/edit"+">edit</a>"+
             "</li>"+
             '<li>'+
-            "<a onclick=deletePlace("+object.id+")>delete</a>"+
+            "<a onclick=deleteContact("+object.id+")>delete</a>"+
             "</li>"+
-            "</ul>"+"</td>"+
-            '<td>'+ 
-            '<ul>'+
-            '<li>'+"<a href=/view/"+object.id+"/contacts>contacts</a>"+"</li>"+
-            "</ul>"+ '</td>';
+            "</ul>"+"</td>";
             table.appendChild(tr);
         });
     }
-function deletePlace(id){
+function deleteContact(id){
             $.ajax({
             type        : 'DELETE', 
-            url         : '/rest_place/'+id, 
+            url         : '/place/contact/'+id, 
             contentType: "application/json",
             data        : JSON.stringify({}), // our data object
             dataType    : 'json', // what type of data do we expect back from the server
@@ -53,27 +51,31 @@ function deletePlace(id){
                 document.location.reload();
         });
 }
+function newContact(){
+	var url = window.location.pathname;
+    var id = window.location.pathname.match(/view\/(\d+)/)[1];
+    location.href="/place/"+id+"/contact";
+}
 </script>
 </head>
 <body>
 
 <div >
-	<table id="placeliste">
+	<table id="contactliste">
 		<thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Createdat</th>
-                <th>Comment</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Lob</th>
+                <th>Phone Number</th>
                 <th>Actions</th>
-                <th>Contacts</th>
             </tr>
         </thead>
         </table>
 </div>
 <div>
-<input type="button" onclick="location.href='/view/new';" value="new entry" />
+<input type="button" onclick="newContact()" value="new entry" />
 </div>
 
 

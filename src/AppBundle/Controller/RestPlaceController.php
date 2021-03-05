@@ -34,9 +34,9 @@ class RestPlaceController extends Controller
       /**
      * Finds and displays a place entity.
      *
-     * @Route("/{id}", name="rest_place_show", requirements={"id" = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"},)
+     * @Route("/{id}", name="rest_place_show",requirements={"id" = "\d+"},methods={"GET"})
 
-     * @Method("GET")
+     * @Method({"GET"})
      */
     public function showAction(Place $place)
     {
@@ -108,8 +108,8 @@ class RestPlaceController extends Controller
     /**
      * Deletes a place entity.
      *
-     * @Route("/{id}", name="rest_place_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="rest_place_delete",requirements={"id" = "\d+"},methods={"DELETE"})
+     * @Method({"DELETE"})
      */
     public function deleteAction(Request $request, Place $place)
     { 

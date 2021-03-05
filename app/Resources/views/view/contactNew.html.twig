@@ -5,27 +5,16 @@
 <script>
 
 $(document).ready(function(){
-    var url = window.location.pathname;
-    var id = window.location.pathname.match(/view\/(\d+)/)[1];
-    $.ajax({
-            type: "GET",
-            url: '/rest_place/'+id,
-            dataType: "json",
-            // ajax options
-            success: function(response) {
-                generateForm(response);
-            }
-        });
-
-
     $("form").on("submit", function(event){
         
  
         var formValues= getFormData($(this));
-
+        console.log(formValues);
+        var url = window.location.pathname;
+        var id = window.location.pathname.match(/place\/(\d+)/)[1];
         $.ajax({
-            type        : 'PATCH', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '/rest_place/'+id+'/edit', // the url where we want to POST
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : "/place/"+id+"/contact", // the url where we want to POST
             contentType: "application/json",
             data        : JSON.stringify(formValues), // our data object
             dataType    : 'json', // what type of data do we expect back from the server
@@ -37,16 +26,7 @@ $(document).ready(function(){
         event.preventDefault();
     });
 });
-function generateForm(json){
-    selectedTextarea = $('#input_name')[0]; 
-    selectedTextarea.value = json.name;
-    selectedTextarea = $('#input_address')[0]; 
-    selectedTextarea.value = json.address;
-    selectedTextarea = $('#input_comment')[0]; 
-    selectedTextarea.value = json.comment;
-                
-        
-}
+
 function getFormData($form){
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};
@@ -63,29 +43,29 @@ function getFormData($form){
 <h1>Place creation</h1>
 
 <form id="form">
-     <!-- NAME -->
+
+        <!-- NAME -->
         <div id="name-group" class="form-group">
             <label for="name">Name</label>
-            <input id="input_name" type="text" class="form-control" required="required" name="name" value="enter the name">
+            <input type="text" class="form-control" required="required" name="name" placeholder="enter the name">
             <!-- errors will go here -->
         </div>
 
         <!-- ADDRESS -->
         <div id="address-group" class="form-group">
             <label for="address">Address</label>
-            <input id="input_address" type="text" class="form-control" required="required" name="address" value="enter the address">
+            <input type="text" class="form-control" required="required" name="address" placeholder="enter the address">
             <!-- errors will go here -->
         </div>
 
         <!-- COMMENT ALIAS -->
         <div id="comment-group" class="form-group">
             <label for="comment">Comment</label>
-            <input id="input_comment"type="text" class="form-control" name="comment" value="enter a comment">
+            <input type="text" class="form-control" name="comment" placeholder="enter a comment">
             <!-- errors will go here -->
         </div>
-       
 
-        <button type="submit" >Submit </button>
+        <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
 
 </form>
 <div>

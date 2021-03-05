@@ -50,8 +50,9 @@ class RestContactController extends Controller
     public function newAction(Request $request,$id)
     {
         $contact = new Contact();
+         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm('AppBundle\Form\ContactType', $contact);
-        $place = $this->em->getRepository(Place::class)->findOneByUuid($id);
+        $place = $em->getRepository(Place::class)->findOneByUuid($id);
         if(empty($place)){
         	$response = new Response(json_encode(array("error" => "Place Not found")), Response::HTTP_NOT_FOUND);
             $response->headers->set('Content-Type', 'application/json');

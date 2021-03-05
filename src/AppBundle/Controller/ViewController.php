@@ -40,5 +40,14 @@ class ViewController extends Controller
         $id = (int)$request->request->get('row');
         return $this->render('view/edit.html.twig',array($id) );
     }
+    /**
+     * @Route("/{id}/contacts", name="view_contacts")
+     * @Method("GET")
+     */
+    public function contactsAction(Request $request)
+    {
+        $id = (int)$request->request->get('row');
+        return $this->render('view/contacts.html.twig',array($id) );
+    }
 
 }
