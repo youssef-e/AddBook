@@ -1,3 +1,7 @@
 unit_tests:
   GET:
-    - { url: "/place/1"          , status: 200, out: "get_place"}
+    - { url: "/places/#place_id_1#"          , status: 200, out: "get_place"}
+    - { url: "/places"                       , status: 200, out: "get_places"}
+
+  POST:
+    - { url: "/place"                        , status: 201, in: "post_place", out: "posted_place"}

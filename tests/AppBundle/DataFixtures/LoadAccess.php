@@ -23,7 +23,7 @@ class Api{
     
     public function postPlace(array $place)
     {
-        $response = $this->guzzleClient->request("POST", "/rest_place/new", $this->getOption($place));
+        $response = $this->guzzleClient->request("POST", "/place", $this->getOption($place));
 
         if($response->getStatusCode() !== 201)
         {
@@ -80,7 +80,7 @@ class LoadAccess
             'comment'=>'best place to work',
         ]);
 
-        $this->store($place1->id, "place_");
+        $this->store($place1->id, "place_id_");
     }
 }
 

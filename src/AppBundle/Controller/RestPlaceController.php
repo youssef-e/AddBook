@@ -8,24 +8,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response; 
 
-/**
- * Place controller.
- *
- * @Route("place")
- */
 class RestPlaceController extends Controller
 {
     /**
-     * Lists all place entities.
      *
-     * @Route("/", name="rest_place_index",methods={"GET"})
+     * @Route("/places", name="rest_place_index",methods={"GET"})
      *
      */
     public function indexAction()
-    {
+    {   
+        $s = $this->get('jms_serializer');
         $em = $this->getDoctrine()->getManager();
         $places = $em->getRepository('AppBundle:Place')->findAll();
-        $response = new Response(json_encode($places), Response::HTTP_OK);
+        $response = new Response($s->serialize($places,'json'), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -33,10 +28,14 @@ class RestPlaceController extends Controller
       /**
      * Finds and displays a place entity.
      *
-     * @Route("/{id}", name="rest_place_show",requirements={"id" = "\d+"},methods={"GET"})
+     * @Route("/places/{id}", name="rest_place_show",requirements={"id" = "\d+"},methods={"GET"})
      */
-    public function showAction(Place $place)
+    public function showAction(int $id)
     {   
+        $place = $this->getDoctrine()->getManager()->getRepository(Place::class)->findOneBy(["random_id"=>$id]);
+        if(empty($place)){
+            return 1;
+        }
         $s = $this->get('jms_serializer');
         $response = new Response($s->serialize($place,'json'), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -46,11 +45,12 @@ class RestPlaceController extends Controller
     /**
      * Creates a new place entity.
      *
-     * @Route("/new", name="rest_place_new",methods={"POST"})
+     * @Route("/place", name="rest_place_new",methods={"POST"})
      */
     public function newAction(Request $request)
     {
         $place = new Place();
+        $s = $this->get('jms_serializer');
         $form = $this->createForm('AppBundle\Form\PlaceType', $place);
         $data=json_decode($request->getContent(),true);
         $content= $request->getContent();
@@ -60,12 +60,12 @@ class RestPlaceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($place);
             $em->flush();
-            $response = new Response(json_encode($place), Response::HTTP_CREATED);
+            $response = new Response($s->serialize($place,'json'), Response::HTTP_CREATED);
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
 
-        $response = new Response(json_encode(array("error" => "the form is invalid")), Response::HTTP_BAD_REQUEST );
+        $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -77,10 +77,11 @@ class RestPlaceController extends Controller
     /**
      * Displays a form to edit an existing place entity.
      *
-     * @Route("/{id}/edit", name="rest_place_edit",methods={"PATCH"})
+     * @Route("/places/{id}", name="rest_place_edit",methods={"PATCH"})
      */
     public function editAction(Request $request, Place $place)
     {   
+        $s = $this->get('jms_serializer');
         if($request->isMethod('patch')){
             $editForm = $this->createForm('AppBundle\Form\PlaceType', $place);
             $data=json_decode($request->getContent(),true);
@@ -89,13 +90,13 @@ class RestPlaceController extends Controller
             if ($editForm->isSubmitted() && $editForm->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
 
-                $response = new Response(json_encode(array("result"=>"ressource patched successfully")), Response::HTTP_OK);
+                $response = new Response($s->serialize($place,'json'), Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
         }
         else{
-             $response = new Response(json_encode(array("error"=>"the form is invalid")), Response::HTTP_BAD_REQUEST);
+             $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
         }
@@ -104,7 +105,7 @@ class RestPlaceController extends Controller
     /**
      * Deletes a place entity.
      *
-     * @Route("/{id}", name="rest_place_delete",requirements={"id" = "\d+"},methods={"DELETE"})
+     * @Route("/places/{id}", name="rest_place_delete",requirements={"id" = "\d+"},methods={"DELETE"})
      */
     public function deleteAction(Request $request, Place $place)
     { 
