@@ -32,11 +32,13 @@ class RestPlaceController extends Controller
      */
     public function showAction(int $id)
     {   
+        $s = $this->get('jms_serializer');
         $place = $this->getDoctrine()->getManager()->getRepository(Place::class)->findOneBy(["random_id"=>$id]);
         if(empty($place)){
-            return 1;
+            $response = new Response($s->serialize(array("error" => "The requested resource does not exists"),'json'), Response::HTTP_NOT_FOUND);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
-        $s = $this->get('jms_serializer');
         $response = new Response($s->serialize($place,'json'), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -48,28 +50,32 @@ class RestPlaceController extends Controller
      * @Route("/place", name="rest_place_new",methods={"POST"})
      */
     public function newAction(Request $request)
-    {
-        $place = new Place();
+    {   
         $s = $this->get('jms_serializer');
-        $form = $this->createForm('AppBundle\Form\PlaceType', $place);
-        $data=json_decode($request->getContent(),true);
-        $content= $request->getContent();
-        $form->submit($data);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($place);
-            $em->flush();
-            $response = new Response($s->serialize($place,'json'), Response::HTTP_CREATED);
+        if($request->isMethod('post')){
+            $place = new Place();
+            $form = $this->createForm('AppBundle\Form\PlaceType', $place);
+            $data=json_decode($request->getContent(),true);
+            $content= $request->getContent();
+            $form->submit($data);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($place);
+                $em->flush();
+                $response = new Response($s->serialize($place,'json'), Response::HTTP_CREATED);
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+            $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
-
-        $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-        
+        else{
+            $response = new Response($s->serialize(array("error" => "this method is not supported for the requested resource;"),'json'), 
+                                    Response::HTTP_METHOD_NOT_ALLOWED );
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }    
     }
 
  
@@ -77,12 +83,18 @@ class RestPlaceController extends Controller
     /**
      * Displays a form to edit an existing place entity.
      *
-     * @Route("/places/{id}", name="rest_place_edit",methods={"PATCH"})
+     * @Route("/places/{id}", name="rest_place_edit", requirements={"id" = "\d+"}, methods={"PATCH"})
      */
-    public function editAction(Request $request, Place $place)
+    public function editAction(Request $request, int $id)
     {   
         $s = $this->get('jms_serializer');
         if($request->isMethod('patch')){
+            $place = $this->getDoctrine()->getManager()->getRepository(Place::class)->findOneBy(["random_id"=>$id]);
+            if(empty($place)){
+                $response = new Response($s->serialize(array("error" => "The requested resource does not exist"),'json'), Response::HTTP_NOT_FOUND);
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
             $editForm = $this->createForm('AppBundle\Form\PlaceType', $place);
             $data=json_decode($request->getContent(),true);
             $editForm->submit($data);
@@ -94,12 +106,16 @@ class RestPlaceController extends Controller
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
+            $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         else{
-             $response = new Response($s->serialize(array("error" => "the form is invalid"),'json'), Response::HTTP_BAD_REQUEST );
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-        }
+            $response = new Response($s->serialize(array("error" => "this method is not supported for the requested resource;"),'json'), 
+                                    Response::HTTP_METHOD_NOT_ALLOWED );
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }  
     }
 
     /**
@@ -107,15 +123,29 @@ class RestPlaceController extends Controller
      *
      * @Route("/places/{id}", name="rest_place_delete",requirements={"id" = "\d+"},methods={"DELETE"})
      */
-    public function deleteAction(Request $request, Place $place)
-    { 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($place);
-        $em->flush();
-        $response = new Response(null,Response::HTTP_NO_CONTENT);
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
+    public function deleteAction(Request $request, int $id)
+    {   
+        $s = $this->get('jms_serializer');
+        if($request->isMethod('delete')){
+            $place = $this->getDoctrine()->getManager()->getRepository(Place::class)->findOneBy(["random_id"=>$id]);
+            if(empty($place)){
+                $response = new Response($s->serialize(array("error" => "The requested resource does not exist"),'json'), Response::HTTP_NOT_FOUND);
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($place);
+            $em->flush();
+            $response = new Response(null,Response::HTTP_NO_CONTENT);
+            $response->headers->set('Content-Type', 'application/json');    
+            return $response;
+        }
+        else{
+            $response = new Response($s->serialize(array("error" => "this method is not supported for the requested resource;"),'json'), 
+                                    Response::HTTP_METHOD_NOT_ALLOWED );
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
     }
 
 

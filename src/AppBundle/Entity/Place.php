@@ -63,7 +63,7 @@ class Place
      */
     public function onPreEvents()
     {
-        $this->random_id = random_int(PHP_INT_MIN,PHP_INT_MAX);
+        $this->random_id = random_int(1,PHP_INT_MAX);
     }
 
 }
