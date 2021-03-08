@@ -4,23 +4,22 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Place;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response; 
 
 /**
  * Place controller.
  *
- * @Route("rest_place")
+ * @Route("place")
  */
 class RestPlaceController extends Controller
 {
     /**
      * Lists all place entities.
      *
-     * @Route("/", name="rest_place_index")
-     * @Method("GET")
+     * @Route("/", name="rest_place_index",methods={"GET"})
+     *
      */
     public function indexAction()
     {
@@ -35,12 +34,11 @@ class RestPlaceController extends Controller
      * Finds and displays a place entity.
      *
      * @Route("/{id}", name="rest_place_show",requirements={"id" = "\d+"},methods={"GET"})
-
-     * @Method({"GET"})
      */
     public function showAction(Place $place)
-    {
-        $response = new Response(json_encode($place), Response::HTTP_OK);
+    {   
+        $s = $this->get('jms_serializer');
+        $response = new Response($s->serialize($place,'json'), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -48,8 +46,7 @@ class RestPlaceController extends Controller
     /**
      * Creates a new place entity.
      *
-     * @Route("/new", name="rest_place_new")
-     * @Method({"POST"})
+     * @Route("/new", name="rest_place_new",methods={"POST"})
      */
     public function newAction(Request $request)
     {
@@ -63,7 +60,7 @@ class RestPlaceController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($place);
             $em->flush();
-            $response = new Response(json_encode(array("results" => "Operation Successful")), Response::HTTP_CREATED);
+            $response = new Response(json_encode($place), Response::HTTP_CREATED);
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
@@ -80,8 +77,7 @@ class RestPlaceController extends Controller
     /**
      * Displays a form to edit an existing place entity.
      *
-     * @Route("/{id}/edit", name="rest_place_edit")
-     * @Method({"PATCH"})
+     * @Route("/{id}/edit", name="rest_place_edit",methods={"PATCH"})
      */
     public function editAction(Request $request, Place $place)
     {   
@@ -109,12 +105,10 @@ class RestPlaceController extends Controller
      * Deletes a place entity.
      *
      * @Route("/{id}", name="rest_place_delete",requirements={"id" = "\d+"},methods={"DELETE"})
-     * @Method({"DELETE"})
      */
     public function deleteAction(Request $request, Place $place)
     { 
         $em = $this->getDoctrine()->getManager();
-        dump($em);
         $em->remove($place);
         $em->flush();
         $response = new Response(null,Response::HTTP_NO_CONTENT);

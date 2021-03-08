@@ -3,8 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,8 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ViewController extends Controller
 {
     /**
-     * @Route("/", name="view_list")
-     * @Method("GET")
+     * @Route("/", name="view_list",methods={"GET"})
      */
     public function listAction()
     {
@@ -23,8 +21,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/new", name="view_new")
-     * @Method("GET")
+     * @Route("/new", name="view_new",methods={"GET"})
      */
     public function newAction()
     {
@@ -32,8 +29,7 @@ class ViewController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="view_edit")
-     * @Method("GET")
+     * @Route("/{id}/edit", name="view_edit",methods={"GET"})
      */
     public function editAction(Request $request)
     {
@@ -41,8 +37,7 @@ class ViewController extends Controller
         return $this->render('view/edit.html.twig',array($id) );
     }
     /**
-     * @Route("/{id}/contacts", name="view_contacts")
-     * @Method("GET")
+     * @Route("/{id}/contacts", name="view_contacts",methods={"GET"})
      */
     public function contactsAction(Request $request)
     {

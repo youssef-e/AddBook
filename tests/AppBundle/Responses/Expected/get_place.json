@@ -1,0 +1,7 @@
+{
+	"id":1,
+	"name":"evck",
+	"address":"11 rue erard",
+	"created_at":"@string@.isDateTime()",
+	"comment":"best place to work"
+}
