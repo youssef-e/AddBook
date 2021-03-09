@@ -129,8 +129,8 @@ class RestPlaceController extends Controller
         if($request->isMethod('delete')){
             $place = $this->getDoctrine()->getManager()->getRepository(Place::class)->findOneBy(["random_id"=>$id]);
             if(empty($place)){
-                $response = new Response($s->serialize(array("error" => "The requested resource does not exist"),'json'), Response::HTTP_NOT_FOUND);
-                $response->headers->set('Content-Type', 'application/json');
+                $response = new Response(null,Response::HTTP_NO_CONTENT);
+                $response->headers->set('Content-Type', 'application/json');    
                 return $response;
             }
             $em = $this->getDoctrine()->getManager();

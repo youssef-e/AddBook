@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Place
  *
@@ -30,11 +30,13 @@ class Place
 
     /**
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $name;
 
     /**
      * @ORM\Column(name="address", type="string", length=255)
+     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $address;
 
@@ -45,6 +47,7 @@ class Place
 
     /**
      * @ORM\Column(name="comment", type="string", length=255,nullable=true)
+     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $comment;
 

@@ -16,7 +16,7 @@ unit_tests:
 
 
   PATCH:
-    - { url: "/places/#place_id_1#"          , status: 200, in: "patch_place", out: "patched_place"}
+    - { url: "/places/#place_id_1#"          , status: 200, out: "patched_place"                  , in: "patch_place"}
     - { url: "/places/#place_id_1#"          , status: 400, out: "patched_place_invalid_json"     , in: "patch_place_invalid_json"}
     - { url: "/places/#place_id_1#"          , status: 400, out: "patched_place_extra_field"      , in: "patch_place_extra_field"}
     - { url: "/places/#place_id_1#"          , status: 400, out: "patched_place_address_too_long" , in: "patch_place_address_too_long"}
@@ -25,6 +25,6 @@ unit_tests:
 
   DELETE:
     - { url: "/places/#place_id_1#"          , status: 204}
-    - { url: "/places/a55a"                  , status: 204}
+    - { url: "/places/0"                     , status: 204}
     - { url: "/place"                        , status: 405}
     - { url: "/places"                       , status: 405}
