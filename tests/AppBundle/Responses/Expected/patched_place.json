@@ -3,5 +3,14 @@
 	"name":"everycheck",
 	"address":"11 rue erard",
 	"created_at":"@string@.isDateTime()",
-	"comment":"best place to work at"
+	"comment":"best place to work at",
+	"contacts":[
+			{
+				"id":"@integer@",
+				"firstname":"Leo",
+				"lastname":"sok",
+				"title":"project manager junior",
+				"phone":"07777777777"
+			}
+		]
 }

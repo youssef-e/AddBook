@@ -3,187 +3,62 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Contact
  *
  * @ORM\Table(name="contact")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ContactRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Contact
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMS\Exclude()
      */
-    private $id;
+    public $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=255)
+     * @ORM\Column(name="random_id", type="integer")
+     * @JMS\SerializedName("id")
      */
-    private $firstName;
+    public $random_id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255)
      */
-    private $lastName;
+    public $firstname;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="job", type="string", length=255)
+     * @ORM\Column(name="lastname", type="string", length=255)
      */
-    private $job;
+    public $lastname;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="phone_number", type="integer")
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $phoneNumber;
+    public $title;
 
     /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="Place")
+     * @ORM\Column(name="phone", type="string", length=10)
      */
-    private $place;
-
+    public $phone;
 
     /**
-     * Get id.
-     *
-     * @return int
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="contacts")
+     * @JMS\Exclude()
      */
-    public function getId()
+    public $place;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPreEvents()
     {
-        return $this->id;
-    }
-
-    /**
-     * Set firstName.
-     *
-     * @param string $firstName
-     *
-     * @return Contact
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName.
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName.
-     *
-     * @param string $lastName
-     *
-     * @return Contact
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set job.
-     *
-     * @param string $job
-     *
-     * @return Contact
-     */
-    public function setJob($job)
-    {
-        $this->job = $job;
-
-        return $this;
-    }
-
-    /**
-     * Get job.
-     *
-     * @return string
-     */
-    public function getJob()
-    {
-        return $this->job;
-    }
-
-    /**
-     * Set phoneNumber.
-     *
-     * @param int $phoneNumber
-     *
-     * @return Contact
-     */
-    public function setPhoneNumber($phoneNumber)
-    {
-        $this->phoneNumber = $phoneNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get phoneNumber.
-     *
-     * @return int
-     */
-    public function getPhoneNumber()
-    {
-        return $this->phoneNumber;
-    }
-
-    /**
-     * Set place.
-     *
-     * @param int $place
-     *
-     * @return Contact
-     */
-    public function setPlace($place)
-    {
-        $this->place = $place;
-
-        return $this;
-    }
-
-    /**
-     * Get place.
-     *
-     * @return int
-     */
-    public function getPlace()
-    {
-        return $this->place;
+        $this->random_id = random_int(1,PHP_INT_MAX);
     }
 }

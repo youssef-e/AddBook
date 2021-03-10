@@ -16,17 +16,45 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName',TextType::class, [
-            'constraints'=> new Assert\NotBlank(),
+        $builder->add('firstname',TextType::class, [
+            'constraints'=> [
+                new Assert\NotBlank(),new Assert\Length([
+                'min' => 2,
+                'max' => 255,
+                'minMessage' => 'First name must be at least {{ limit }} characters long',
+                'maxMessage' => 'First name cannot be longer than {{ limit }} characters',
+                ])
+            ]
         ]);
-        $builder->add('lastName',TextType::class, [
-            'constraints'=> new Assert\NotBlank(),
+        $builder->add('lastname',TextType::class, [
+            'constraints'=> [
+                new Assert\NotBlank(),new Assert\Length([
+                'min' => 2,
+                'max' => 255,
+                'minMessage' => 'Lirst name must be at least {{ limit }} characters long',
+                'maxMessage' => 'Lirst name cannot be longer than {{ limit }} characters',
+                ])
+            ]
         ]);
-        $builder->add('job',TextType::class, [
-            'constraints'=> new Assert\NotBlank(),
+        $builder->add('title',TextType::class, [
+            'constraints'=> [
+                new Assert\NotBlank(),new Assert\Length([
+                'min' => 2,
+                'max' => 255,
+                'minMessage' => 'Title must be at least {{ limit }} characters long',
+                'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
+                ])
+            ]
         ]);
-        $builder->add('phoneNumber',TextType::class, [
-            'constraints'=> new Assert\NotBlank(),
+        $builder->add('phone',TextType::class, [
+            'constraints'=> [
+                new Assert\NotBlank(),new Assert\Length([
+                'min' => 2,
+                'max' => 255,
+                'minMessage' => 'Title must be at least {{ limit }} characters long',
+                'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
+                ])
+            ]
         ]);
     }/**
      * {@inheritdoc}

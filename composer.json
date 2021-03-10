@@ -53,7 +53,7 @@
             "rm var/data.sqlite",
             "bin/console d:d:c",
             "bin/console d:s:c",
-            "php tests/AppBundle/DataFixtures/LoadAccess.php 'http://127.0.0.1:8000' false"
+            "php tests/AppBundle/DataFixtures/LoadPlace.php 'http://127.0.0.1:8000' false"
         ]
     },
     "config": {

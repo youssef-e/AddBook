@@ -18,12 +18,12 @@ class RestPlaceControllerTest extends JsonApiAsArrayTestCase
 
     public static function ApiCallProvider()
     {
-        return ResourcesFileLoader::testCaseProvider(__DIR__,'access');
+        return ResourcesFileLoader::testCaseProvider(__DIR__,'place');
     }
 
     public function setUp($fixtureFilename = null)
     {
-        parent::setUp('LoadAccess');
+        parent::setUp('LoadPlace');
     }
 
 }

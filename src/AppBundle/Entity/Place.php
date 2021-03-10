@@ -5,13 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
- * Place
- *
  * @ORM\Table(name="place")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PlaceRepository")
  * @ORM\HasLifecycleCallbacks()
  */
+
 class Place
 {
     /**
@@ -30,13 +31,11 @@ class Place
 
     /**
      * @ORM\Column(name="name", type="string", length=255)
-     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $name;
 
     /**
      * @ORM\Column(name="address", type="string", length=255)
-     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $address;
 
@@ -47,17 +46,18 @@ class Place
 
     /**
      * @ORM\Column(name="comment", type="string", length=255,nullable=true)
-     * @Assert\Length(max="255", minMessage="this value was too long")
      */
     public $comment;
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\OneToMany(targetEntity="Contact", mappedBy="place")
+     */
+
+    public $contacts;
 
     public function __construct()
     {
+        $this->roles = new ArrayCollection();
         $this->createdAt = new \DateTime;
     }
 
