@@ -5,7 +5,7 @@ unit_tests:
     - { url: "/place"                                                        , status: 405}
     - { url: "/places/#place_id_1#"                                          , status: 200, out: "get_place"}
     - { url: "/places/#place_id_1#/contacts"                                 , status: 200, out: "get_contacts"}
-    - { url: "/places/contacts/#contact_id_2#"                                , status: 200, out: "get_contact"}
+    - { url: "/places/contacts/#contact_id_2#"                               , status: 200,out: "get_contact"}
     - { url: "/places/#place_id_1#/contact"                                  , status: 405}
 
   POST:
@@ -34,7 +34,10 @@ unit_tests:
     - { url: "/places/contacts/#contact_id_2#"                               , status: 200, out: "patched_contact"                  , in: "patch_contact"}
     - { url: "/places/contacts/#contact_id_2#"                               , status: 400, out: "patched_contact_invalid_json"     , in: "patch_contact_invalid_json"}
     - { url: "/places/contacts/#contact_id_2#"                               , status: 400, out: "patched_contact_extra_field"      , in: "patch_contact_extra_field"}
+    - { url: "/places/contacts/0"                                            , status: 404, out: "notFound"                         , in: "patch_contact"}
     - { url: "/places/contacts/#contact_id_2#"                               , status: 400, out: "patched_contact_title_too_long"   , in: "patch_contact_title_too_long"}
+    - { url: "/places/#place_id_1#/contact"                                  , status: 405}
+    - { url: "/places/#place_id_1#/contacts"                                 , status: 405}
 
   DELETE:
     - { url: "/places/#place_id_1#"                                          , status: 204}
@@ -45,3 +48,4 @@ unit_tests:
     - { url: "/places/contacts/0"                                            , status: 204}
     - { url: "/place/contacts/#contact_id_2#"                                , status: 404}
     - { url: "/places/#place_id_1#/contact"                                  , status: 405}
+    - { url: "/places/#place_id_1#/contacts"                                 , status: 405}
