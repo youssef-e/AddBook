@@ -1,0 +1,21 @@
+unit_tests:
+  GET:
+    - { url: "/place"                                                        , status: 405}
+    - { url: "/places/#place_id_1#/contact"                                  , status: 405}
+
+  POST:
+    - { url: "/places/#place_id_1#"                                          , status: 405}
+    - { url: "/places"                                                       , status: 405}
+    - { url: "/places/#place_id_1#/contacts"                                 , status: 405}
+
+  PATCH:
+    - { url: "/place"                                                        , status: 405}
+    - { url: "/places"                                                       , status: 405}
+    - { url: "/places/#place_id_1#/contact"                                  , status: 405}
+    - { url: "/places/#place_id_1#/contacts"                                 , status: 405}
+
+  DELETE:
+    - { url: "/place"                                                        , status: 405}
+    - { url: "/places"                                                       , status: 405}
+    - { url: "/places/#place_id_1#/contact"                                  , status: 405}
+    - { url: "/places/#place_id_1#/contacts"                                 , status: 405}

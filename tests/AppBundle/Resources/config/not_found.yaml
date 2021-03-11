@@ -1,0 +1,15 @@
+unit_tests:
+  GET:
+    - { url: "/places/0"                        , status: 404}
+    - { url: "/places/0/contacts"               , status: 404}
+
+  POST:
+    - { url: "/places/0/contact"                , status: 404}
+
+  PATCH:
+    - { url: "/places/contacts/0"               , status: 404}
+    - { url: "/places/0"                        , status: 404}
+
+  DELETE:
+    - { url: "/places/0"                        , status: 204}
+    - { url: "/places/contacts/0"               , status: 204}

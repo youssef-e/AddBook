@@ -18,41 +18,45 @@ class ContactType extends AbstractType
     {
         $builder->add('firstname',TextType::class, [
             'constraints'=> [
-                new Assert\NotBlank(),new Assert\Length([
-                'min' => 2,
-                'max' => 255,
-                'minMessage' => 'First name must be at least {{ limit }} characters long',
-                'maxMessage' => 'First name cannot be longer than {{ limit }} characters',
+                new Assert\NotBlank(),
+                new Assert\Length([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Firstname must be at least {{ limit }} characters long',
+                    'maxMessage' => 'Firstname cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
         $builder->add('lastname',TextType::class, [
             'constraints'=> [
-                new Assert\NotBlank(),new Assert\Length([
-                'min' => 2,
-                'max' => 255,
-                'minMessage' => 'Lirst name must be at least {{ limit }} characters long',
-                'maxMessage' => 'Lirst name cannot be longer than {{ limit }} characters',
+                new Assert\NotBlank(),
+                new Assert\Length([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Lastname must be at least {{ limit }} characters long',
+                    'maxMessage' => 'Lastname cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
         $builder->add('title',TextType::class, [
             'constraints'=> [
-                new Assert\NotBlank(),new Assert\Length([
-                'min' => 2,
-                'max' => 255,
-                'minMessage' => 'Title must be at least {{ limit }} characters long',
-                'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
+                new Assert\NotBlank(),
+                new Assert\Length([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Title must be at least {{ limit }} characters long',
+                    'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
         $builder->add('phone',TextType::class, [
             'constraints'=> [
-                new Assert\NotBlank(),new Assert\Length([
-                'min' => 2,
-                'max' => 255,
-                'minMessage' => 'Title must be at least {{ limit }} characters long',
-                'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
+                new Assert\NotBlank(),
+                new Assert\Length([
+                    'min' => 2,
+                    'max' => 255,
+                    'minMessage' => 'Phone must be at least {{ limit }} characters long',
+                    'maxMessage' => 'Phone cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);

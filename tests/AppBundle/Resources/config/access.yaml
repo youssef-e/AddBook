@@ -1,0 +1,18 @@
+unit_tests:
+  GET:
+    - { url: "/places"                                  , status: 200, out: "place/success/get_list"}
+    - { url: "/places/#place_id_1#"                     , status: 200, out: "place/success/get_entity"}
+    - { url: "/places/#place_id_1#/contacts"            , status: 200, out: "contact/success/get_list"}
+    - { url: "/places/contacts/#contact_id_2#"          , status: 200, out: "contact/success/get_entity"}
+
+  POST:
+    - { url: "/place"                                   , status: 201, out: "place/success/posted_entity"        , in: "place/success/post_entity"}
+    - { url: "/places/#place_id_1#/contact"             , status: 201, out: "contact/success/posted_entity"      , in: "contact/success/post_entity"}
+
+  PATCH:
+    - { url: "/places/#place_id_1#"                     , status: 200, out: "place/success/patched_entity"       , in: "place/success/patch_entity"}
+    - { url: "/places/contacts/#contact_id_2#"          , status: 200, out: "contact/success/patched_entity"     , in: "contact/success/patch_entity"}
+
+  DELETE:
+    - { url: "/places/#place_id_1#"                     , status: 204}
+    - { url: "/places/contacts/#contact_id_2#"          , status: 204}

@@ -4,7 +4,7 @@ namespace tests\AppBundle\Controller;
 use EveryCheck\TestApiRestBundle\Controller\JsonApiAsArrayTestCase;
 use EveryCheck\TestApiRestBundle\Loader\ResourcesFileLoader;
 
-class RestPlaceControllerTest extends JsonApiAsArrayTestCase
+class InvalidMethodControllerTest extends JsonApiAsArrayTestCase
 {
 
     /**
@@ -18,7 +18,7 @@ class RestPlaceControllerTest extends JsonApiAsArrayTestCase
 
     public static function ApiCallProvider()
     {
-        return ResourcesFileLoader::testCaseProvider(__DIR__,'place');
+        return ResourcesFileLoader::testCaseProvider(__DIR__,'invalid_method');
     }
 
     public function setUp($fixtureFilename = null)

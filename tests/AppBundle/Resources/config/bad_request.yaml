@@ -1,0 +1,33 @@
+unit_tests:
+
+  POST:
+    - { url: "/place"                               , status: 400, out: "place/bad_request/posted_invalid_json"     , in: "place/bad_request/post_invalid_json"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/missing/name"            , in: "place/bad_request/missing/name"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/missing/address"         , in: "place/bad_request/missing/address"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/posted_extra_field"      , in: "place/bad_request/post_extra_field"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/too_long/name"           , in: "place/bad_request/too_long/name"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/too_long/address"        , in: "place/bad_request/too_long/address"}
+    - { url: "/place"                               , status: 400, out: "place/bad_request/too_long/comment"        , in: "place/bad_request/too_long/comment"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/posted_invalid_json"   , in: "contact/bad_request/post_invalid_json"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/firstname"     , in: "contact/bad_request/missing/firstname"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/lastname"      , in: "contact/bad_request/missing/lastname"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/title"         , in: "contact/bad_request/missing/title"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/phone"         , in: "contact/bad_request/missing/phone"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/posted_extra_field"    , in: "contact/bad_request/post_extra_field"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/too_long/firstname"    , in: "contact/bad_request/too_long/firstname"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/too_long/lastname"     , in: "contact/bad_request/too_long/lastname"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/too_long/title"        , in: "contact/bad_request/too_long/title"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/too_long/phone"        , in: "contact/bad_request/too_long/phone"}
+
+  PATCH:
+    - { url: "/places/#place_id_1#"                 , status: 400, out: "place/bad_request/patched_invalid_json"    , in: "place/bad_request/patch_invalid_json"}
+    - { url: "/places/#place_id_1#"                 , status: 400, out: "place/bad_request/patched_extra_field"     , in: "place/bad_request/patch_extra_field"}
+    - { url: "/places/#place_id_1#"                 , status: 400, out: "place/bad_request/too_long/name"           , in: "place/bad_request/too_long/name"}
+    - { url: "/places/#place_id_1#"                 , status: 400, out: "place/bad_request/too_long/address"        , in: "place/bad_request/too_long/address"}
+    - { url: "/places/#place_id_1#"                 , status: 400, out: "place/bad_request/too_long/comment"        , in: "place/bad_request/too_long/comment"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/patched_invalid_json"  , in: "contact/bad_request/patch_invalid_json"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/patched_extra_field"   , in: "contact/bad_request/patch_extra_field"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/too_long/firstname"    , in: "contact/bad_request/too_long/firstname"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/too_long/lastname"     , in: "contact/bad_request/too_long/lastname"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/too_long/title"        , in: "contact/bad_request/too_long/title"}
+    - { url: "/places/contacts/#contact_id_2#"      , status: 400, out: "contact/bad_request/too_long/phone"        , in: "contact/bad_request/too_long/phone"}

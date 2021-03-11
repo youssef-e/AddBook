@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+
+use AppBundle\Form\ContactType;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Place;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,7 +50,7 @@ class RestContactController extends Controller
         $contact = new Contact();
         $contact->place = $place;
 
-        $form = $this->createForm('AppBundle\Form\ContactType', $contact);
+        $form = $this->createForm(ContactType::class, $contact);
         $data=json_decode($request->getContent(),$jsonAsArray = true);
         if(empty($data) ){
             $err =json_last_error_msg();
@@ -107,7 +109,7 @@ class RestContactController extends Controller
             }
         }
 
-        $editForm = $this->createForm('AppBundle\Form\ContactType', $contact);
+        $editForm = $this->createForm(ContactType::class, $contact);
         $editForm->submit($data);
         if (!$editForm->isValid()) {
             return $this->FormError($editForm);
