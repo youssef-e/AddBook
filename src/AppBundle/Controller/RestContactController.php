@@ -54,7 +54,7 @@ class RestContactController extends Controller
         $data=json_decode($request->getContent(),$jsonAsArray = true);
         if(empty($data) ){
             $err =json_last_error_msg();
-            if(!empty($err))
+            if($err!="No error")
             {
                 return $this->Error(["error"=>"Json : ".$err]);
             }

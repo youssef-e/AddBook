@@ -17,6 +17,7 @@
         "php": ">=7.1",
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-migrations-bundle": "^2.2",
         "doctrine/orm": "^2.5",
         "incenteev/composer-parameter-handler": "^2.0",
         "jms/serializer": "^1.14",
