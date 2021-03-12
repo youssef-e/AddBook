@@ -49,7 +49,7 @@ class Contact
     public $phone;
 
         /**
-     * @ORM\Column(name="email", type="string", length=10)
+     * @ORM\Column(name="email", type="string", length=255)
      */
     public $email;
 
