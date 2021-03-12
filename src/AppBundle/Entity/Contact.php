@@ -48,6 +48,13 @@ class Contact
      */
     public $phone;
 
+        /**
+     * @ORM\Column(name="email", type="string", length=10)
+     */
+    public $email;
+
+
+
     /**
      * @ORM\ManyToOne(targetEntity="Place", inversedBy="contacts")
      * @JMS\Exclude()
