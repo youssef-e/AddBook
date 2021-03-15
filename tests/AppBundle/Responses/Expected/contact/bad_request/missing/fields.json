@@ -1,0 +1,6 @@
+{
+	"firstname":["This value should not be blank."],
+	"lastname":["This value should not be blank."],
+	"title":["This value should not be blank."],
+	"phone":["This value should not be blank."]
+}

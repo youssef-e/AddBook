@@ -9,6 +9,7 @@ unit_tests:
     - { url: "/place"                               , status: 400, out: "place/bad_request/too_long/address"        , in: "place/bad_request/too_long/address"}
     - { url: "/place"                               , status: 400, out: "place/bad_request/too_long/comment"        , in: "place/bad_request/too_long/comment"}
     - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/posted_invalid_json"   , in: "contact/bad_request/post_invalid_json"}
+    - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/fields"     , in: "contact/bad_request/missing/fields"}
     - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/firstname"     , in: "contact/bad_request/missing/firstname"}
     - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/lastname"      , in: "contact/bad_request/missing/lastname"}
     - { url: "/places/#place_id_1#/contact"         , status: 400, out: "contact/bad_request/missing/title"         , in: "contact/bad_request/missing/title"}

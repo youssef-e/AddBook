@@ -1,65 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-	var url = window.location.pathname;
-    var id = window.location.pathname.match(/view\/(\d+)/)[1];
-    $.ajax({
-    		type: "GET",
-            url:'/place/'+id+'/contacts',
-            dataType: "json",
-            success: function(response) {
-                append_json(response);
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+           var url = window.location.pathname;
+           var id = window.location.pathname.match(/view\/(\d+)/)[1];
+           $.ajax({
+              type: "GET",
+              url:'/places/'+id+'/contacts',
+              dataType: "text",
+              contentType:"application/json",
+              success: function(response) {
+                json = response.replace(/([\[:])?(\d+)([,\}\]])/g, "$1\"$2\"$3");
+                json = JSON.parse(json);
+                append_json(json);
             }
         });
-  });
-function append_json(data){
-        var table = document.getElementById('contactliste');
-        data.forEach(function(object) {
-            var tr = document.createElement('tr');
-            tr.innerHTML = 
-            '<td>' + object.id+ '</td>' +
-            '<td>' + object.firstName + '</td>' +
-            '<td>' + object.lastName+ '</td>' +
-            '<td>' + object.job + '</td>' +
-            '<td>' + object.phoneNumber + '</td>'+
-            '<td>'+ '<ul>'+
-            '<li>'+
-            "<a href=/view/"+object.id+"/edit"+">edit</a>"+
-            "</li>"+
-            '<li>'+
-            "<a onclick=deleteContact("+object.id+")>delete</a>"+
-            "</li>"+
-            "</ul>"+"</td>";
-            table.appendChild(tr);
-        });
-    }
-function deleteContact(id){
+       });
+        function append_json(data){
+            var table = document.getElementById('contactliste');
+            data.forEach(function(object) {
+                var id = object.id.toString();
+                var tr = document.createElement('tr');
+                tr.innerHTML = 
+                '<td>' + object.id+ '</td>' +
+                '<td>' + object.firstname + '</td>' +
+                '<td>' + object.lastname+ '</td>' +
+                '<td>' + object.title + '</td>' +
+                '<td>' + object.phone + '</td>'+
+                '<td>'+ '<ul>'+
+                '<li>'+
+                "<a href=/view/contacts/"+object.id+"/edit"+">edit</a>"+
+                "</li>"+
+                '<li>'+
+                "<a href='' onclick=deleteContact("+"'"+id+"'"+")>delete</a>"+
+                "</li>"+
+                "</ul>"+"</td>";
+                table.appendChild(tr);
+            });
+        }
+        function deleteContact(id){
             $.ajax({
-            type        : 'DELETE', 
-            url         : '/place/contact/'+id, 
-            contentType: "application/json",
-            data        : JSON.stringify({}),
-            dataType    : 'json',
-        })
+                type        : 'DELETE', 
+                url         : '/places/contacts/'+id, 
+                contentType: "application/json",
+                data        : JSON.stringify({}),
+                dataType    : 'json',
+            })
             .done(function(data) {
                 document.location.reload();
-        });
-}
-function newContact(){
-	var url = window.location.pathname;
-    var id = window.location.pathname.match(/view\/(\d+)/)[1];
-    location.href="/place/"+id+"/contact";
-}
-</script>
+            });
+        }
+        function newContact(){
+           var url = window.location.pathname;
+           var id = window.location.pathname.match(/view\/(\d+)/)[1];
+           location.href="/view/places/"+id+"/contact";
+       }
+   </script>
 </head>
 <body>
 
-<div >
-	<table id="contactliste">
-		<thead>
+    <div >
+       <table id="contactliste">
+          <thead>
             <tr>
                 <th>Id</th>
                 <th>First Name</th>
@@ -69,10 +73,10 @@ function newContact(){
                 <th>Actions</th>
             </tr>
         </thead>
-        </table>
+    </table>
 </div>
 <div>
-<input type="button" onclick="newContact()" value="new entry" />
+    <input type="button" onclick="newContact()" value="new entry" />
 </div>
 
 

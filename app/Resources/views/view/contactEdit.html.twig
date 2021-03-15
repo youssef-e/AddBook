@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function(){
+            var url = window.location.pathname;
+            var id = window.location.pathname.match(/contacts\/(\d+)/)[1];
+            $.ajax({
+                type: "GET",
+                url: '/places/contacts/'+id,
+                dataType: "json",
+
+                success: function(response) {
+                    generateForm(response);
+                }
+            });
+
+
+            $("form").on("submit", function(event){
+                
+               
+                var formValues= getFormData($(this));
+
+                $.ajax({
+                    type        : 'PATCH', 
+                    url         : '/places/contacts/'+id,
+                    contentType: "application/json",
+                    data        : JSON.stringify(formValues), 
+                    dataType    : 'json', 
+                })
+                
+                .done(function(data) {
+                    location.href='/view/'+id+'/contacts';
+                });
+                event.preventDefault();
+            });
+        });
+        function generateForm(json){
+            selectedTextarea = $('#input_firstname')[0]; 
+            selectedTextarea.value = json.firstname;
+            selectedTextarea = $('#input_lastname')[0]; 
+            selectedTextarea.value = json.lastname;
+            selectedTextarea = $('#input_title')[0]; 
+            selectedTextarea.value = json.title;
+            selectedTextarea = $('#input_phone')[0]; 
+            selectedTextarea.value = json.phone;
+
+            
+        }
+        function getFormData($form){
+            var unindexed_array = $form.serializeArray();
+            var indexed_array = {};
+
+            $.map(unindexed_array, function(n, i){
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
+    </script>
+</head>
+<body>
+    <h1>Contact edit</h1>
+
+    <form id="form">
+       
+        <div id="firstname-group" class="form-group">
+            <label for="firstname">firstname</label>
+            <input id="input_firstname" type="text" class="form-control" required="required" name="firstname" placeholder="enter the firstname">
+            
+        </div>
+
+        <div id="lastname-group" class="form-group">
+            <label for="lastname">lastname</label>
+            <input id="input_lastname" type="text" class="form-control" required="required" name="lastname" placeholder="enter the lastname">
+            
+        </div>
+
+        
+        <div id="title-group" class="form-group">
+            <label for="title">title</label>
+            <input id="input_title"type="text" class="form-control" name="title" placeholder="enter a title">
+            
+        </div>
+
+        <div id="phone-group" class="form-group">
+            <label for="phone">title</label>
+            <input id="input_phone"type="text" class="form-control" name="phone" placeholder="enter a phone">
+            
+        </div>
+
+        <div id="email-group" class="form-group">
+            <label for="email">mail</label>
+            <input id="input_email"type="text" class="form-control" name="email" placeholder="enter an email">
+            
+        </div>
+        
+
+        <button type="submit" >Submit </button>
+
+    </form>
+    <div>
+        <input type="button" onclick="location.href='/view';" value="back to list" />
+    </div>
+</body>
+</html>

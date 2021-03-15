@@ -22,8 +22,6 @@ class ContactType extends AbstractType
                 new Assert\Length([
                     'min' => 2,
                     'max' => 255,
-                    'minMessage' => 'Firstname must be at least {{ limit }} characters long',
-                    'maxMessage' => 'Firstname cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
@@ -33,8 +31,6 @@ class ContactType extends AbstractType
                 new Assert\Length([
                     'min' => 2,
                     'max' => 255,
-                    'minMessage' => 'Lastname must be at least {{ limit }} characters long',
-                    'maxMessage' => 'Lastname cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
@@ -44,8 +40,6 @@ class ContactType extends AbstractType
                 new Assert\Length([
                     'min' => 2,
                     'max' => 255,
-                    'minMessage' => 'Title must be at least {{ limit }} characters long',
-                    'maxMessage' => 'Title cannot be longer than {{ limit }} characters',
                 ])
             ]
         ]);
@@ -55,8 +49,16 @@ class ContactType extends AbstractType
                 new Assert\Length([
                     'min' => 2,
                     'max' => 255,
-                    'minMessage' => 'Phone must be at least {{ limit }} characters long',
-                    'maxMessage' => 'Phone cannot be longer than {{ limit }} characters',
+                ])
+            ]
+        ]);
+        $builder->add('email',TextType::class, [
+            'constraints'=> [
+                new Assert\NotBlank(),
+                new Assert\Email(),
+                new Assert\Length([
+                    'min' => 2,
+                    'max' => 255,
                 ])
             ]
         ]);

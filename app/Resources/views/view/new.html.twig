@@ -12,14 +12,14 @@ $(document).ready(function(){
 
         $.ajax({
             type        : 'POST', 
-            url         : "/rest_place/new", 
+            url         : "/place", 
             contentType: "application/json",
             data        : JSON.stringify(formValues),
             dataType    : 'json', 
         })
             
             .done(function(data) {
-                location.href='/view/';
+                location.href='/view';
         });
         event.preventDefault();
     });
@@ -38,7 +38,7 @@ function getFormData($form){
 </script>
 </head>
 <body>
-<h1>Place creation</h1>
+<h1>Place edit</h1>
 
 <form id="form">
 
@@ -67,7 +67,7 @@ function getFormData($form){
 
 </form>
 <div>
-<input type="button" onclick="location.href='/view/';" value="back to list" />
+<input type="button" onclick="location.href='/view';" value="back to list" />
 </div>
 </body>
 </html>

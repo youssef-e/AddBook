@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
 
-$(document).ready(function(){
-    var url = window.location.pathname;
-    var id = window.location.pathname.match(/view\/(\d+)/)[1];
-    $.ajax({
-            type: "GET",
-            url: '/rest_place/'+id,
-            dataType: "json",
+        $(document).ready(function(){
+            var url = window.location.pathname;
+            var id = window.location.pathname.match(/view\/(\d+)/)[1];
+            $.ajax({
+                type: "GET",
+                url: '/places/'+id,
+                dataType: "json",
 
-            success: function(response) {
-                generateForm(response);
-            }
+                success: function(response) {
+                    generateForm(response);
+                }
+            });
+
+
+            $("form").on("submit", function(event){
+
+
+                var formValues= getFormData($(this));
+
+                $.ajax({
+                    type        : 'PATCH', 
+                    url         : '/places/'+id,
+                    contentType: "application/json",
+                    data        : JSON.stringify(formValues), 
+                    dataType    : 'json', 
+                })
+
+                .done(function(data) {
+                    location.href='/view';
+                });
+                event.preventDefault();
+            });
         });
+        function generateForm(json){
+            selectedTextarea = $('#input_name')[0]; 
+            selectedTextarea.value = json.name;
+            selectedTextarea = $('#input_address')[0]; 
+            selectedTextarea.value = json.address;
+            selectedTextarea = $('#input_comment')[0]; 
+            selectedTextarea.value = json.comment;
 
 
-    $("form").on("submit", function(event){
-        
- 
-        var formValues= getFormData($(this));
+        }
+        function getFormData($form){
+            var unindexed_array = $form.serializeArray();
+            var indexed_array = {};
 
-        $.ajax({
-            type        : 'PATCH', 
-            url         : '/rest_place/'+id+'/edit',
-            contentType: "application/json",
-            data        : JSON.stringify(formValues), 
-            dataType    : 'json', 
-        })
-            
-            .done(function(data) {
-                location.href='/view/';
-        });
-        event.preventDefault();
-    });
-});
-function generateForm(json){
-    selectedTextarea = $('#input_name')[0]; 
-    selectedTextarea.value = json.name;
-    selectedTextarea = $('#input_address')[0]; 
-    selectedTextarea.value = json.address;
-    selectedTextarea = $('#input_comment')[0]; 
-    selectedTextarea.value = json.comment;
-                
-        
-}
-function getFormData($form){
-    var unindexed_array = $form.serializeArray();
-    var indexed_array = {};
+            $.map(unindexed_array, function(n, i){
+                indexed_array[n['name']] = n['value'];
+            });
 
-    $.map(unindexed_array, function(n, i){
-        indexed_array[n['name']] = n['value'];
-    });
-
-    return indexed_array;
-}
-</script>
+            return indexed_array;
+        }
+    </script>
 </head>
 <body>
-<h1>Place creation</h1>
+    <h1>Place edit</h1>
 
-<form id="form">
- 
+    <form id="form">
+
         <div id="name-group" class="form-group">
             <label for="name">Name</label>
             <input id="input_name" type="text" class="form-control" required="required" name="name" value="enter the name">
-          
+
         </div>
 
         <div id="address-group" class="form-group">
             <label for="address">Address</label>
             <input id="input_address" type="text" class="form-control" required="required" name="address" value="enter the address">
-     
+
         </div>
 
- 
+
         <div id="comment-group" class="form-group">
             <label for="comment">Comment</label>
             <input id="input_comment"type="text" class="form-control" name="comment" value="enter a comment">
-      
+
         </div>
-       
+
 
         <button type="submit" >Submit </button>
 
-</form>
-<div>
-<input type="button" onclick="location.href='/view/';" value="back to list" />
-</div>
+    </form>
+    <div>
+        <input type="button" onclick="location.href='/view';" value="back to list" />
+    </div>
 </body>
 </html>

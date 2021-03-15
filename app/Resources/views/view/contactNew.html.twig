@@ -5,25 +5,26 @@
 <script>
 
 $(document).ready(function(){
+
+    var id = window.location.pathname.match(/places\/(\d+)/)[1];
     $("form").on("submit", function(event){
         
- 
         var formValues= getFormData($(this));
-        var url = window.location.pathname;
-        var id = window.location.pathname.match(/place\/(\d+)/)[1];
+
         $.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : "/place/"+id+"/contact", // the url where we want to POST
-            contentType: "application/json",
-            data        : JSON.stringify(formValues), // our data object
-            dataType    : 'json', // what type of data do we expect back from the server
+            type        : 'POST',
+            url         : '/places/'+id+'/contact', 
+            contentType : 'application/json',
+            data        : JSON.stringify(formValues),
+            dataType    : 'json', 
         })
-            // using the done promise callback
+           
             .done(function(data) {
-                location.href='/view/';
+                location.href='/view/'+id+'/contacts';
         });
         event.preventDefault();
     });
+    $("#back_to_list").attr("href",'/view/'+id+'/contacts');
 });
 
 function getFormData($form){
@@ -39,36 +40,42 @@ function getFormData($form){
 </script>
 </head>
 <body>
-<h1>Place creation</h1>
+<h1>Contact creation</h1>
 
 <form id="form">
 
-        <!-- NAME -->
-        <div id="name-group" class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" required="required" name="name" placeholder="enter the name">
-            <!-- errors will go here -->
+
+        <div id="firstname-group" class="form-group">
+            <label for="firstname">first name</label>
+            <input type="text" class="form-control" required="required" name="firstname" placeholder="enter the first name">
         </div>
 
-        <!-- ADDRESS -->
-        <div id="address-group" class="form-group">
-            <label for="address">Address</label>
-            <input type="text" class="form-control" required="required" name="address" placeholder="enter the address">
-            <!-- errors will go here -->
+        <div id="lastname-group" class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" required="required" name="lastname" placeholder="enter the last name">
         </div>
 
-        <!-- COMMENT ALIAS -->
-        <div id="comment-group" class="form-group">
-            <label for="comment">Comment</label>
-            <input type="text" class="form-control" name="comment" placeholder="enter a comment">
-            <!-- errors will go here -->
+
+        <div id="title-group" class="form-group">
+            <label for="title">title</label>
+            <input type="text" class="form-control" name="title" placeholder="enter a title">
+        </div>
+
+        <div id="phone-group" class="form-group">
+            <label for="phone">phone</label>
+            <input type="text" class="form-control" name="phone" placeholder="enter a phone number">
+        </div>
+
+        <div id="email-group" class="form-group">
+            <label for="email">email</label>
+            <input type="text" class="form-control" name="email" placeholder="enter a email number">
         </div>
 
         <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
 
 </form>
 <div>
-<input type="button" onclick="location.href='/view/';" value="back to list" />
+<a id="back_to_list">back to list </a>
 </div>
 </body>
 </html>

@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-$(document).ready(function(){
-    $.ajax({
-    		type: "GET",
-            url: "/rest_place/",
-            dataType: "json",
-            success: function(response) {
-                append_json(response);
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+              type: "GET",
+              url: "/places",
+              dataType: "text",
+              contentType:"application/json",
+              success: function(response) {
+                json = response.replace(/([\[:])?(\d+)([,\}\]])/g, "$1\"$2\"$3");
+                json = JSON.parse(json);
+                append_json(json);
             }
         });
-  });
-function append_json(data){
-        var table = document.getElementById('placeliste');
-        data.forEach(function(object) {
-            var tr = document.createElement('tr');
-            tr.innerHTML = 
-            '<td>' + object.id+ '</td>' +
-            '<td>' + object.name + '</td>' +
-            '<td>' + object.address+ '</td>' +
-            '<td>' + object.createdAt.date + '</td>' +
-            '<td>' + object.comment + '</td>'+
-            '<td>'+ '<ul>'+
-            '<li>'+
-            "<a href=/view/"+object.id+"/edit"+">edit</a>"+
-            "</li>"+
-            '<li>'+
-            "<a href='' onclick=deletePlace("+object.id+")>delete</a>"+
-            "</li>"+
-            "</ul>"+"</td>"+
-            '<td>'+ 
-            '<ul>'+
-            '<li>'+"<a href=/view/"+object.id+"/contacts>contacts</a>"+"</li>"+
-            "</ul>"+ '</td>';
-            table.appendChild(tr);
         });
-    }
-function deletePlace(id){
+        function append_json(data){
+            var table = document.getElementById('placeliste');
+            data.forEach(function(object) {
+                var id = object.id.toString();
+                var tr = document.createElement('tr');
+                tr.innerHTML = 
+                '<td>' + object.id+ '</td>' +
+                '<td>' + object.name + '</td>' +
+                '<td>' + object.address+ '</td>' +
+                '<td>' + object.created_at + '</td>' +
+                '<td>' + object.comment + '</td>'+
+                '<td>'+ '<ul>'+
+                '<li>'+
+                "<a href=/view/"+id+"/edit"+">edit</a>"+
+                "</li>"+
+                '<li>'+
+                "<a href='' onclick=deletePlace("+"'"+id+"'"+")>delete</a>"+
+                "</li>"+
+                "</ul>"+"</td>"+
+                '<td>'+ 
+                '<ul>'+
+                '<li>'+"<a href=/view/"+id+"/contacts>contacts</a>"+"</li>"+
+                "</ul>"+ '</td>';
+                table.appendChild(tr);
+            });
+        }
+        function deletePlace(id){
             $.ajax({
-            type        : 'DELETE', 
-            url         : '/rest_place/'+id, 
-            contentType: "application/json",
-            data        : JSON.stringify({}), 
-            dataType    : 'json',
-        })
+                type        : 'DELETE', 
+                url         : '/places/'+id, 
+            })
             
             .done(function(data) {
                 document.location.reload();
-        });
-}
-</script>
+            });
+        }
+    </script>
 </head>
 <body>
 
-<div >
-	<table id="placeliste">
-		<thead>
+    <div >
+       <table id="placeliste">
+          <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
@@ -68,10 +69,10 @@ function deletePlace(id){
                 <th>Contacts</th>
             </tr>
         </thead>
-        </table>
+    </table>
 </div>
 <div>
-<input type="button" onclick="location.href='/view/new';" value="new entry" />
+    <input type="button" onclick="location.href='/view/new';" value="new entry" />
 </div>
 
 
