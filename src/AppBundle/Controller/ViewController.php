@@ -22,7 +22,7 @@ class ViewController extends Controller
      */
     public function indexAction()
     {
-        return $this->redirectToRoute('view');
+        return $this->redirectToRoute('view_list');
     }
     /**
      * @Route("/view/new", name="view_new",methods={"GET"})
