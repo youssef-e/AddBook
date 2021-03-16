@@ -18,6 +18,13 @@ class ViewController extends Controller
     }
 
     /**
+     * @Route("/", name="view_index",methods={"GET"})
+     */
+    public function indexAction()
+    {
+        return $this->redirectToRoute('view');
+    }
+    /**
      * @Route("/view/new", name="view_new",methods={"GET"})
      */
     public function newAction()
